@@ -4,6 +4,9 @@ from setuptools import setup, find_namespace_packages
 install_requires = [
     ('Flask', '2.1.0'),
     ('Flask-WTF', '1.0.1'),
+    ('psycopg2-binary', '2.9.5'),
+    ('sqlalchemy', '1.4.44'),
+    ('environs', '9.5.0')
 ]
 
 CI_PROJECT_NAME = os.environ.get("CI_PROJECT_NAME", "test-data-service")
@@ -18,7 +21,7 @@ setup(
     version=ARTIFACT_VERSION,
     description=CI_PROJECT_TITLE,
     url=CI_PROJECT_URL,
-    install_requires=[">=".join(req) for req in install_requires],
+    install_requires=["~=".join(req) for req in install_requires],
     python_requires=">=3.9.1",
     packages=find_namespace_packages(where="src"),
     package_dir={"": "src"},

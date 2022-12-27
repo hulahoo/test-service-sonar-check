@@ -1,20 +1,22 @@
-from flask import Flask, send_from_directory
-from flask_wtf.csrf import CSRFProtect
-
 import os
 
+from flask import Flask, send_from_directory, request
+
+from test_data_service.apps.models.provider import TestDataProvider
+from test_data_service.apps.models.models import TestData
+
 app = Flask(__name__)
-csrf = CSRFProtect()
-csrf.init_app(app)
 
 mimetype = 'application/json'
+base_path = os.path.dirname(os.path.abspath(__file__)) + '/../../data'
+test_data_provider = TestDataProvider()
 
 
 def execute():
     """
     Main function to start Flask application
     """
-    app.run(host='0.0.0.0', port='8080')
+    app.run(host='0.0.0.0', port=8080)
 
 
 @app.route('/health/readiness', methods=["GET"])
@@ -43,11 +45,23 @@ def liveness():
 
 @app.route('/data/<path:path>', methods=["GET"])
 def data(path):
-    return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '/../../data', path)
+    return send_from_directory(base_path, path)
 
 
 @app.route('/api/context-source-<value>', methods=["GET"])
 def whois(value):
-    return send_from_directory(
-        os.path.dirname(os.path.abspath(__file__)) + '/../../data', f'context-source-{value}.json'
+    return send_from_directory(base_path, f'context-source-{value}.json')
+
+
+@app.route('/api/siem', methods=["POST"])
+def siem():
+    test_data_provider.add(TestData(
+        key='publish-to-siem',
+        value=request.get_json()
+    ))
+
+    return app.response_class(
+        response={"status": "OK"},
+        status=200,
+        mimetype=mimetype
     )
