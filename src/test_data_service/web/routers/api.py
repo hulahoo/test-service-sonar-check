@@ -44,3 +44,10 @@ def liveness():
 @app.route('/data/<path:path>', methods=["GET"])
 def data(path):
     return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '/../../data', path)
+
+
+@app.route('/api/context-source-<value>', methods=["GET"])
+def whois(value):
+    return send_from_directory(
+        os.path.dirname(os.path.abspath(__file__)) + '/../../data', f'context-source-{value}.json'
+    )
