@@ -3,6 +3,16 @@
 Веб-сервис для предоставления тестовых данных
 
 
+## Информаци о ENV-параметрах
+Имеющиеся env-параметры в проекте:
+```
+APP_POSTGRESQL_NAME=test_name
+APP_POSTGRESQL_USER=user
+APP_POSTGRESQL_PASSWORD=password
+APP_POSTGRESQL_HOST=localhost
+APP_POSTGRESQL_PORT=5432
+```
+
 ### Запуск сервиса
 
 1. Создайте виртуальное окружение
