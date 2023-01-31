@@ -1,7 +1,7 @@
 import sys
 import logging
 
-logger = logging.getLogger('importing_worker')
+logger = logging.getLogger('test_data_service')
 logger.setLevel(logging.DEBUG)
 
 console = logging.StreamHandler(sys.stdout)
